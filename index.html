@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Dashboard – Harshini</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--text:#1e2433;--muted:#667085;--accent:#6d4aff;--accent2:#ff6fa8;--line:#e6e9f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1b1e29;--text:#eceef5;--muted:#9aa1b5;--line:#2a2e3d}}
+:root[data-theme="dark"]{--bg:#12141c;--card:#1b1e29;--text:#eceef5;--muted:#9aa1b5;--line:#2a2e3d}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:6px;align-items:center;padding:10px 16px;overflow-x:auto}
+nav b{margin-right:12px;white-space:nowrap;color:var(--accent)}
+nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:8px;font-size:14px;white-space:nowrap}
+nav a:hover{background:var(--bg);color:var(--text)}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 40px}
+section{margin-top:28px}h2{font-size:20px;margin:0 0 12px}
+.hero{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:18px;padding:26px}
+.hero h1{margin:0 0 6px;font-size:26px}.hero p{margin:0;opacity:.92}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat .n{font-size:30px;font-weight:700;margin:4px 0}.muted{color:var(--muted);font-size:14px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tag{font-size:12px;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:2px 8px;border-radius:99px}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+label.task{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+label.task:last-child{border-bottom:0}
+.done span{text-decoration:line-through;color:var(--muted)}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:22px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:14px 0 0}dt{color:var(--muted)}dd{margin:0;font-weight:600}
+.links a{color:var(--accent);margin-right:14px;text-decoration:none;font-weight:600}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<nav>
+<b>🎓 StudentHub</b>
+<a href="#top">Dashboard</a><a href="#courses">My Courses</a><a href="#attendance">Attendance</a><a href="#assignments">Assignments</a><a href="#profile">My Profile</a>
+</nav>
+<main id="top">
+<div class="hero">
+<h1>Hello, Harshini! 👋</h1>
+<p>Keep learning, keep growing. Your future starts today.</p>
+</div>
+
+<section class="grid">
+<div class="card stat"><div class="muted">📚 Total Courses</div><div class="n" id="s-courses">0</div><div class="muted">Active learning tracks</div></div>
+<div class="card stat"><div class="muted">📊 Attendance</div><div class="n" id="s-att">0%</div><div class="muted">Average of all subjects</div></div>
+<div class="card stat"><div class="muted">📝 Pending</div><div class="n" id="s-pend">0</div><div class="muted">Tasks to finish</div></div>
+<div class="card stat"><div class="muted">🏆 Certifications</div><div class="n">1</div><div class="muted">Neo4j Certified Professional</div></div>
+</section>
+
+<section id="courses"><h2>My Courses</h2><div class="grid" id="course-list"></div></section>
+
+<section id="assignments"><h2>Assignments</h2>
+<div class="two">
+<div class="card"><div class="row"><b>⏳ Pending</b><span class="tag" id="c-pend">0</span></div><div id="pend"></div></div>
+<div class="card"><div class="row"><b>✅ Completed</b><span class="tag" id="c-done">0</span></div><div id="done"></div></div>
+</div>
+<p class="muted">Tick a task to move it to Completed. Untick to move it back.</p></section>
+
+<section id="attendance"><h2>Attendance by Subject</h2>
+<div class="card" id="att-list"></div>
+<p class="muted">Minimum required: 75%</p></section>
+
+<section id="profile"><h2>My Profile</h2>
+<div class="card">
+<div class="row" style="justify-content:flex-start;gap:16px"><div class="avatar">TH</div>
+<div><b style="font-size:20px">T S Harshini</b><div class="muted">B.Tech Student | CSE (AI &amp; ML)</div><div class="muted">Aspiring AI/ML Engineer</div></div></div>
+<p>Building AI systems, multi-agent workflows and data-driven apps. Neo4j Certified Professional with internship experience in ML and data work.</p>
+<dl>
+<dt>Department</dt><dd>Computer Science &amp; Engineering (AI &amp; ML)</dd>
+<dt>University</dt><dd>Mohan Babu University, Tirupati</dd>
+<dt>Batch</dt><dd>2023 – 2027</dd>
+<dt>Location</dt><dd>Andhra Pradesh, India</dd>
+<dt>Goal</dt><dd>AI/ML Engineer</dd>
+<dt>Roles</dt><dd>Youth Ambassador, Women in Tech Global · Campus Ambassador, Centle India</dd>
+</dl>
+<h3>Experience</h3>
+<p class="muted"><b style="color:var(--text)">FlyRank AI</b> – ML/data intern<br><b style="color:var(--text)">Centle Group (Maceco)</b> – LinkedIn post generator and custom chatbot using Snowflake &amp; Streamlit</p>
+<h3>Contact</h3>
+<p class="links">✉️ <a href="mailto:harshinigowda2710@gmail.com">harshinigowda2710@gmail.com</a><br><br>
+<a href="https://github.com/harshini-mb">💻 GitHub</a><a href="https://linkedin.com/in/t-s-harshini">🔗 LinkedIn</a></p>
+</div></section>
+</main>
+<footer>© 2026 StudentHub | Student Dashboard</footer>
+
+<script>
+// ✏️ EDIT THESE: sample values — replace with your real data
+var courses=[
+ {i:"🤖",n:"Google Cloud Generative AI",p:70},
+ {i:"📊",n:"GATE DA 2027 Prep",p:35},
+ {i:"🕸️",n:"Neo4j & Graph Databases",p:90},
+ {i:"🧠",n:"Machine Learning",p:80}
+];
+var tasks=[
+ {t:"Internship review PPT",s:"EduSkills",d:"This week",done:false},
+ {t:"Daily GATE programming practice",s:"GATE DA",d:"Today",done:false},
+ {t:"Update resume",s:"Career",d:"Soon",done:false},
+ {t:"Capstone progress update",s:"Final-year project",d:"Next week",done:false}
+];
+var attendance=[
+ {i:"🤖",n:"Artificial Intelligence",v:90},
+ {i:"🧠",n:"Machine Learning",v:93},
+ {i:"🗄️",n:"Database Management",v:88},
+ {i:"📈",n:"Data Science",v:92},
+ {i:"🐍",n:"Python Programming",v:94}
+];
+function $(id){return document.getElementById(id)}
+function render(){
+ $("course-list").innerHTML=courses.map(function(c){return '<div class="card"><div style="font-size:26px">'+c.i+'</div><b>'+c.n+'</b><div class="muted">Progress: '+c.p+'%</div><div class="bar"><i style="width:'+c.p+'%"></i></div></div>'}).join("");
+ $("att-list").innerHTML=attendance.map(function(a){return '<div style="margin:10px 0"><div class="row"><span>'+a.i+' '+a.n+'</span><b>'+a.v+'%</b></div><div class="bar"><i style="width:'+a.v+'%"></i></div></div>'}).join("");
+ var avg=Math.round(attendance.reduce(function(s,a){return s+a.v},0)/attendance.length);
+ $("s-att").textContent=avg+"%";$("s-courses").textContent=courses.length;
+ function item(t,k){return '<label class="task'+(t.done?' done':'')+'"><input type="checkbox" data-k="'+k+'"'+(t.done?' checked':'')+'><span><b>'+t.t+'</b><br><small>'+t.s+' · '+t.d+'</small></span></label>'}
+ var p="",d="",np=0,nd=0;
+ tasks.forEach(function(t,k){if(t.done){d+=item(t,k);nd++}else{p+=item(t,k);np++}});
+ $("pend").innerHTML=p||'<p class="muted">All caught up 🎉</p>';$("done").innerHTML=d||'<p class="muted">Nothing yet</p>';
+ $("c-pend").textContent=np;$("c-done").textContent=nd;$("s-pend").textContent=np;
+}
+document.addEventListener("change",function(e){var k=e.target.getAttribute("data-k");if(k!==null){tasks[k].done=e.target.checked;render()}});
+render();
+</script>
+</body>
+</html>
